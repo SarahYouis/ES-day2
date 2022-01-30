@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="text-center mmy-2">
+        <select name="userDisplay" id="userDisplay" onchange="fill(value)"></select>
+        <option></option>
+        <button type="button" id="show" disabled>Show Details</button>
+    </div>
+
+    <table id="sh-Data" class="table table-dark table-striped tabel-hover">
+        <thead>
+            <tr>ID</tr>
+            <tr>Name</tr>
+            <tr>UserName</tr>
+            <tr>Email</tr>
+            <tr>Phone</tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        var jsonSave;
+        const _URL = 'https://jsonplaceholder.typicode.com/users' ;
+        async function API(_URL)
+        {
+            let response = await fetch(_URL); //promise
+            jsonSave = await response.json(); // promise
+            let selected = document.getElementById("userDisplay");
+            for(let key in jsonSave){
+                selected.innerHTML += `<option value =${key}> ${jsonSave[key].name} </option>`
+            }
+        }
+        API(_URL);
+
+        function fill(val)
+        {
+            console.log(val);
+            console.log(jsonSave[val]);
+            document.getElementById("show").disabled = false;
+            document.getElementById("show").addEventListener("click", function(){
+                var tableBody = document.querySelector("sh-Data");
+                tableBody.innerHTML = "";
+                let row = `
+                    <tr>
+                        <td>${jsonSave[val].id}</td>
+                        <td>${jsonSave[val].name}</td>
+                        <td>${jsonSave[val].username}</td>
+                        <td>${jsonSave[val].email}</td>
+                        <td>${jsonSave[val].phone}</td>
+                    </tr>
+                `
+                tableBody.innerHTML += row;
+            })
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+</body>
+</html>

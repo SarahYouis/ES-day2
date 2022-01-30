@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // target – is an object to wrap.
+        //  handler – is an object that contains methods to control the behaviors of the target.
+        // The methods inside the handler object are called traps.
+        const user = {
+            firstName: 'John',
+            lastName: 'Doe'
+        }
+
+        const handler = {
+            get(target, property) {
+                return property === 'fullName' ?
+                    `${target.firstName} ${target.lastName}` :
+                    target[property];
+            }
+        };
+
+        const proxyUser = new Proxy(user, handler);
+
+        console.log(proxyUser.fullName);
+        console.log(proxyUser.firstName);
+        console.log(proxyUser.lastName);
+
+    </script>
+</body>
+
+</html>
